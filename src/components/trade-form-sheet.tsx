@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -319,20 +319,15 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                 )}/>
             </div>
             </ScrollArea>
-            <SheetFooter className="pt-4 mt-auto grid gap-2">
-                <div className="grid grid-cols-2 gap-2">
-                    <Button type="button" variant="destructive" onClick={() => handleSave('loss')}>
-                        <TrendingDown />
-                        {tradeToEdit ? 'Save as Loss' : 'Loss'}
-                    </Button>
-                    <Button type="button" onClick={() => handleSave('profit')}>
-                        <TrendingUp />
-                        {tradeToEdit ? 'Save as Profit' : 'Profit'}
-                    </Button>
-                </div>
-                <SheetClose asChild>
-                    <Button type="button" variant="outline">Cancel</Button>
-                </SheetClose>
+            <SheetFooter className="pt-4 mt-auto grid grid-cols-2 gap-2">
+                <Button type="button" variant="destructive" onClick={() => handleSave('loss')}>
+                    <TrendingDown />
+                    {tradeToEdit ? 'Save as Loss' : 'Loss'}
+                </Button>
+                <Button type="button" onClick={() => handleSave('profit')}>
+                    <TrendingUp />
+                    {tradeToEdit ? 'Save as Profit' : 'Profit'}
+                </Button>
             </SheetFooter>
           </form>
         </Form>
