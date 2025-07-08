@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, TrendingDown, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { type Trade, type Broker } from '@/lib/types';
@@ -207,7 +207,7 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                         control={form.control}
                         name="chartTime"
                         render={({ field }) => (
-                            <FormItem className="flex-1">
+                            <FormItem className="flex-1 flex flex-col">
                             <FormLabel>Chart Time</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value ?? ""}>
                                 <FormControl>
@@ -322,10 +322,12 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
             <SheetFooter className="pt-4 mt-auto grid gap-2">
                 <div className="grid grid-cols-2 gap-2">
                     <Button type="button" variant="destructive" onClick={() => handleSave('loss')}>
-                        {tradeToEdit ? 'Save as Loss' : 'Log Loss'}
+                        <TrendingDown />
+                        {tradeToEdit ? 'Save as Loss' : 'Loss'}
                     </Button>
                     <Button type="button" onClick={() => handleSave('profit')}>
-                        {tradeToEdit ? 'Save as Profit' : 'Log Profit'}
+                        <TrendingUp />
+                        {tradeToEdit ? 'Save as Profit' : 'Profit'}
                     </Button>
                 </div>
                 <SheetClose asChild>
