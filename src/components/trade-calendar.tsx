@@ -60,11 +60,11 @@ export default function TradeCalendar({ month, onMonthChange, onDayClick, dailyT
           }}
           className="w-full"
           classNames={{
-            day_cell: "h-16 w-16 text-center text-sm p-0.5 relative [&:has([aria-selected])]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+            day_cell: "h-12 w-12 text-center text-sm p-0.5 relative [&:has([aria-selected])]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 md:h-16 md:w-16",
             day: "h-full w-full p-0 rounded-md focus-visible:ring-1 focus-visible:ring-ring",
             day_selected: "bg-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             day_today: "ring-2 ring-accent",
-            head_cell: "text-muted-foreground rounded-md w-16 font-normal text-[0.8rem]",
+            head_cell: "text-muted-foreground rounded-md w-12 font-normal text-[0.8rem] md:w-16",
           }}
         />
       </CardContent>

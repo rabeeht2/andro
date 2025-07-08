@@ -139,7 +139,7 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
         <Form {...form}>
           <form className="flex-1 flex flex-col min-h-0">
             <ScrollArea className="flex-grow p-1 -m-1 pr-4 -mr-4">
-            <div className="space-y-6 py-4">
+            <div className="space-y-4 py-4">
                 <FormField control={form.control} name="amount" render={({ field }) => (
                 <FormItem>
                     <FormLabel>Amount</FormLabel>
