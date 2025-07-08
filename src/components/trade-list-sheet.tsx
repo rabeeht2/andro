@@ -62,7 +62,7 @@ export default function TradeListSheet({ isOpen, setIsOpen, selectedDate, trades
                             <span className="block mt-1 text-xs">
                                 {trade.chartTime && `Chart: ${trade.chartTime}`}
                                 {trade.chartTime && trade.tradeTime && ' / '}
-                                {trade.tradeTime && `Trade: ${trade.tradeTime}`}
+                                {trade.tradeTime && `Trade: ${trade.tradeTime}s`}
                             </span>
                           )}
                         </CardDescription>

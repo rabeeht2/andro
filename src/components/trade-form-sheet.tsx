@@ -202,24 +202,79 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                 )}/>
 
                 <div className="flex gap-4">
-                    <FormField control={form.control} name="chartTime" render={({ field }) => (
-                        <FormItem className="flex-1">
+                    <FormField
+                        control={form.control}
+                        name="chartTime"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
                             <FormLabel>Chart Time</FormLabel>
-                            <FormControl>
-                                <Input type="time" {...field} value={field.value ?? ""} />
-                            </FormControl>
+                            <Select onValueChange={field.onChange} value={field.value ?? ""}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select timeframe" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                {['5s', '10s', '15s', '30s', '1m', '2m', '3m', '5m', '10m', '15m', '30m', '1h', '2h', '4h', '1d', '1w'].map(time => (
+                                    <SelectItem key={time} value={time}>{time}</SelectItem>
+                                ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
-                        </FormItem>
-                    )}/>
-                    <FormField control={form.control} name="tradeTime" render={({ field }) => (
-                        <FormItem className="flex-1">
-                            <FormLabel>Trade Time</FormLabel>
-                            <FormControl>
-                                <Input type="time" {...field} value={field.value ?? ""} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}/>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="tradeTime"
+                        render={({ field }) => (
+                            <FormItem className="flex-1 flex flex-col">
+                                <FormLabel>Trade Time (s)</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                            variant={"outline"}
+                                            className={cn("w-full justify-start text-left font-normal", !field.value && "text-muted-foreground")}
+                                            >
+                                            {field.value ? `${field.value} seconds` : <span>Pick a time</span>}
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <div className="p-2 space-y-2">
+                                            <ScrollArea className="h-40 w-48">
+                                                <div className="grid grid-cols-4 gap-1 p-1">
+                                                    {Array.from({ length: 60 }, (_, i) => i + 1).map((num) => (
+                                                        <Button
+                                                            key={num}
+                                                            variant={field.value === String(num) ? "default" : "ghost"}
+                                                            size="sm"
+                                                            className="w-full"
+                                                            onClick={() => field.onChange(String(num))}
+                                                        >
+                                                            {num}
+                                                        </Button>
+                                                    ))}
+                                                </div>
+                                            </ScrollArea>
+                                            <div className="p-1 pt-2 border-t">
+                                                <FormLabel className="text-xs px-1">Manual Entry</FormLabel>
+                                                <Input 
+                                                    type="number"
+                                                    placeholder="e.g. 90"
+                                                    value={field.value ?? ""}
+                                                    onChange={(e) => field.onChange(e.target.value)}
+                                                    className="mt-1 h-8"
+                                                />
+                                            </div>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                 </div>
                 
                 <FormField control={form.control} name="brokerId" render={({ field }) => (
