@@ -25,11 +25,11 @@ const getInitialTrades = (): Trade[] => {
   }
   const today = new Date();
   return [
-    { id: '1', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 150.75, isProfit: true, brokerId: 'qx', notes: 'Good entry on AAPL', chartTime: '09:35', tradeTime: '09:36' },
-    { id: '2', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 50.25, isProfit: false, brokerId: 'po', notes: 'Mistake trade on TSLA', chartTime: '10:10', tradeTime: '10:10' },
-    { id: '3', date: new Date(today.getFullYear(), today.getMonth(), 10), amount: 250.00, isProfit: true, brokerId: 'qx', chartTime: '11:00', tradeTime: '11:01' },
-    { id: '4', date: new Date(today.getFullYear(), today.getMonth(), 15), amount: 120.50, isProfit: false, brokerId: 'po' },
-    { id: '5', date: new Date(today.getFullYear(), today.getMonth(), 15), amount: 300.00, isProfit: true, brokerId: 'qx', notes: 'Caught the morning dip', chartTime: '14:20', tradeTime: '14:22' },
+    { id: '1', date: new Date(today.getFullYear(), today.getMonth(), 2, 9, 36), amount: 150.75, isProfit: true, brokerId: 'qx', notes: 'Good entry on AAPL', chartTime: '5m', tradeTime: '30' },
+    { id: '2', date: new Date(today.getFullYear(), today.getMonth(), 2, 10, 10), amount: 50.25, isProfit: false, brokerId: 'po', notes: 'Mistake trade on TSLA', chartTime: '1m', tradeTime: '10' },
+    { id: '3', date: new Date(today.getFullYear(), today.getMonth(), 10, 11, 1), amount: 250.00, isProfit: true, brokerId: 'qx', chartTime: '15m', tradeTime: '60' },
+    { id: '4', date: new Date(today.getFullYear(), today.getMonth(), 15, 12, 0), amount: 120.50, isProfit: false, brokerId: 'po' },
+    { id: '5', date: new Date(today.getFullYear(), today.getMonth(), 15, 14, 22), amount: 300.00, isProfit: true, brokerId: 'qx', notes: 'Caught the morning dip', chartTime: '5m', tradeTime: '45' },
   ];
 }
 
@@ -43,10 +43,19 @@ export default function Home() {
   const { toast } = useToast();
   const [trades, setTrades] = useState<Trade[]>([]);
   const [brokers, setBrokers] = useState<Broker[]>([]);
+  const [lastUsedOptions, setLastUsedOptions] = useState<{
+    brokerId?: string;
+    chartTime?: string;
+    tradeTime?: string;
+  }>({});
   
   useEffect(() => {
     setTrades(getInitialTrades());
     setBrokers(getInitialBrokers());
+    const savedOptions = localStorage.getItem('lastUsedTradeOptions');
+    if (savedOptions) {
+        setLastUsedOptions(JSON.parse(savedOptions));
+    }
   }, []);
 
   useEffect(() => {
@@ -56,7 +65,10 @@ export default function Home() {
     if (brokers.length > 0) {
         localStorage.setItem('brokers', JSON.stringify(brokers));
     }
-  }, [trades, brokers]);
+    if (Object.keys(lastUsedOptions).length > 0) {
+        localStorage.setItem('lastUsedTradeOptions', JSON.stringify(lastUsedOptions));
+    }
+  }, [trades, brokers, lastUsedOptions]);
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
   
@@ -76,6 +88,11 @@ export default function Home() {
   const handleAddTrade = (tradeData: Omit<Trade, 'id'>) => {
     const newTrade = { ...tradeData, id: Date.now().toString() };
     setTrades([...trades, newTrade]);
+    setLastUsedOptions({
+      brokerId: newTrade.brokerId,
+      chartTime: newTrade.chartTime,
+      tradeTime: newTrade.tradeTime,
+    });
     toast({ title: "Trade added!", description: "Your new trade has been successfully logged." });
   };
 
@@ -119,7 +136,7 @@ export default function Home() {
 
   const tradesForSelectedDay = useMemo(() => {
     if (!selectedDate) return [];
-    return trades.filter(trade => trade.date.toDateString() === selectedDate.toDateString());
+    return trades.filter(trade => trade.date.toDateString() === selectedDate.toDateString()).sort((a,b) => a.date.getTime() - b.date.getTime());
   }, [trades, selectedDate]);
 
   return (
@@ -157,6 +174,7 @@ export default function Home() {
         onEditTrade={handleEditTrade}
         onAddNewBroker={handleAddNewBroker}
         tradeToEdit={editingTrade}
+        lastUsedOptions={lastUsedOptions}
       />
       
       <TradeListSheet

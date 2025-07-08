@@ -57,7 +57,7 @@ export default function TradeListSheet({ isOpen, setIsOpen, selectedDate, trades
                           {trade.isProfit ? '+' : '-'}${trade.amount.toFixed(2)}
                         </CardTitle>
                         <CardDescription>
-                          Broker: {getBrokerName(trade.brokerId)}
+                          <span className="font-semibold">{format(trade.date, 'p')}</span> ・ Broker: {getBrokerName(trade.brokerId)}
                           {(trade.chartTime || trade.tradeTime) && (
                             <span className="block mt-1 text-xs">
                                 {trade.chartTime && `Chart: ${trade.chartTime}`}
