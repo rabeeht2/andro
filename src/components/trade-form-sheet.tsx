@@ -7,7 +7,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFo
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -122,6 +121,11 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
     }
     setIsOpen(false);
   };
+  
+  const handleSave = (type: 'profit' | 'loss') => {
+    form.setValue('isProfit', type);
+    form.handleSubmit(onSubmit)();
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -133,40 +137,9 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 flex flex-col min-h-0">
+          <form className="flex-1 flex flex-col min-h-0">
             <ScrollArea className="flex-grow p-1 -m-1 pr-4 -mr-4">
             <div className="space-y-6 py-4">
-                <FormField
-                control={form.control}
-                name="isProfit"
-                render={({ field }) => (
-                    <FormItem className="space-y-3">
-                    <FormLabel>Type</FormLabel>
-                    <FormControl>
-                        <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex gap-4"
-                        >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                            <RadioGroupItem value="profit" id="profit" />
-                            </FormControl>
-                            <FormLabel htmlFor="profit" className="font-normal text-primary">Profit</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                            <RadioGroupItem value="loss" id="loss"/>
-                            </FormControl>
-                            <FormLabel htmlFor="loss" className="font-normal text-destructive">Loss</FormLabel>
-                        </FormItem>
-                        </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                
                 <FormField control={form.control} name="amount" render={({ field }) => (
                 <FormItem>
                     <FormLabel>Amount</FormLabel>
@@ -346,11 +319,18 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                 )}/>
             </div>
             </ScrollArea>
-            <SheetFooter className="pt-4 mt-auto">
+            <SheetFooter className="pt-4 mt-auto grid gap-2">
+                <div className="grid grid-cols-2 gap-2">
+                    <Button type="button" variant="destructive" onClick={() => handleSave('loss')}>
+                        {tradeToEdit ? 'Save as Loss' : 'Log Loss'}
+                    </Button>
+                    <Button type="button" onClick={() => handleSave('profit')}>
+                        {tradeToEdit ? 'Save as Profit' : 'Log Profit'}
+                    </Button>
+                </div>
                 <SheetClose asChild>
                     <Button type="button" variant="outline">Cancel</Button>
                 </SheetClose>
-                <Button type="submit">{tradeToEdit ? 'Save Changes' : 'Add Trade'}</Button>
             </SheetFooter>
           </form>
         </Form>
