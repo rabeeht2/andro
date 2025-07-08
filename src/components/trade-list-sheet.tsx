@@ -58,6 +58,13 @@ export default function TradeListSheet({ isOpen, setIsOpen, selectedDate, trades
                         </CardTitle>
                         <CardDescription>
                           Broker: {getBrokerName(trade.brokerId)}
+                          {(trade.chartTime || trade.tradeTime) && (
+                            <span className="block mt-1 text-xs">
+                                {trade.chartTime && `Chart: ${trade.chartTime}`}
+                                {trade.chartTime && trade.tradeTime && ' / '}
+                                {trade.tradeTime && `Trade: ${trade.tradeTime}`}
+                            </span>
+                          )}
                         </CardDescription>
                       </div>
                       <Badge variant={trade.isProfit ? 'default' : 'destructive'} className={trade.isProfit ? 'bg-primary' : ''}>

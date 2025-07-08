@@ -22,6 +22,8 @@ const formSchema = z.object({
   amount: z.coerce.number().positive({ message: "Amount must be a positive number." }),
   isProfit: z.enum(["profit", "loss"]),
   date: z.date(),
+  chartTime: z.string().optional(),
+  tradeTime: z.string().optional(),
   brokerId: z.string().min(1, { message: "Please select a broker." }),
   newBrokerName: z.string().optional(),
   notes: z.string().optional(),
@@ -57,6 +59,8 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
       brokerId: '',
       newBrokerName: '',
       notes: '',
+      chartTime: '',
+      tradeTime: '',
     },
   });
   
@@ -71,6 +75,8 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                 date: new Date(tradeToEdit.date),
                 brokerId: tradeToEdit.brokerId,
                 notes: tradeToEdit.notes || '',
+                chartTime: tradeToEdit.chartTime || '',
+                tradeTime: tradeToEdit.tradeTime || '',
                 newBrokerName: '',
             });
         } else {
@@ -81,6 +87,8 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                 brokerId: '',
                 newBrokerName: '',
                 notes: '',
+                chartTime: '',
+                tradeTime: '',
             });
         }
     }
@@ -98,6 +106,8 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
         date: data.date,
         brokerId: finalBrokerId,
         notes: data.notes,
+        chartTime: data.chartTime,
+        tradeTime: data.tradeTime,
     };
 
     if (tradeToEdit) {
@@ -190,6 +200,27 @@ export default function TradeFormSheet({ isOpen, setIsOpen, brokers, tradeToEdit
                         <FormMessage />
                     </FormItem>
                 )}/>
+
+                <div className="flex gap-4">
+                    <FormField control={form.control} name="chartTime" render={({ field }) => (
+                        <FormItem className="flex-1">
+                            <FormLabel>Chart Time</FormLabel>
+                            <FormControl>
+                                <Input type="time" {...field} value={field.value ?? ""} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                    <FormField control={form.control} name="tradeTime" render={({ field }) => (
+                        <FormItem className="flex-1">
+                            <FormLabel>Trade Time</FormLabel>
+                            <FormControl>
+                                <Input type="time" {...field} value={field.value ?? ""} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                </div>
                 
                 <FormField control={form.control} name="brokerId" render={({ field }) => (
                     <FormItem>

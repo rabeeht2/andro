@@ -25,11 +25,11 @@ const getInitialTrades = (): Trade[] => {
   }
   const today = new Date();
   return [
-    { id: '1', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 150.75, isProfit: true, brokerId: 'qx', notes: 'Good entry on AAPL' },
-    { id: '2', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 50.25, isProfit: false, brokerId: 'po', notes: 'Mistake trade on TSLA' },
-    { id: '3', date: new Date(today.getFullYear(), today.getMonth(), 10), amount: 250.00, isProfit: true, brokerId: 'qx' },
+    { id: '1', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 150.75, isProfit: true, brokerId: 'qx', notes: 'Good entry on AAPL', chartTime: '09:35', tradeTime: '09:36' },
+    { id: '2', date: new Date(today.getFullYear(), today.getMonth(), 2), amount: 50.25, isProfit: false, brokerId: 'po', notes: 'Mistake trade on TSLA', chartTime: '10:10', tradeTime: '10:10' },
+    { id: '3', date: new Date(today.getFullYear(), today.getMonth(), 10), amount: 250.00, isProfit: true, brokerId: 'qx', chartTime: '11:00', tradeTime: '11:01' },
     { id: '4', date: new Date(today.getFullYear(), today.getMonth(), 15), amount: 120.50, isProfit: false, brokerId: 'po' },
-    { id: '5', date: new Date(today.getFullYear(), today.getMonth(), 15), amount: 300.00, isProfit: true, brokerId: 'qx', notes: 'Caught the morning dip' },
+    { id: '5', date: new Date(today.getFullYear(), today.getMonth(), 15), amount: 300.00, isProfit: true, brokerId: 'qx', notes: 'Caught the morning dip', chartTime: '14:20', tradeTime: '14:22' },
   ];
 }
 

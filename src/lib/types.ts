@@ -10,4 +10,6 @@ export type Trade = {
   isProfit: boolean;
   brokerId: string;
   notes?: string;
+  chartTime?: string;
+  tradeTime?: string;
 };
